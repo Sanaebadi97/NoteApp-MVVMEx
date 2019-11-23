@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">NoteApp</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="priority">Priority :</string>
+    <string name="save">Save</string>
+    <string name="add_note">Add Note</string>
+    <string name="warn_insert">Please insert a title and description!</string>
+    <string name="note_saved">Note Saved!</string>
+    <string name="note_not_saved">Note not Saved!</string>
 </resources>

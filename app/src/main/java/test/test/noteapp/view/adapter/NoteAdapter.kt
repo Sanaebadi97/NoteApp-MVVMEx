@@ -1,8 +1,10 @@
 package test.test.noteapp.view.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_item_list.view.*
@@ -12,7 +14,7 @@ import test.test.noteapp.database.Note
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
 
 
-    private var noteList : List<Note>? = null
+    private var noteList: List<Note>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
         val view =
@@ -20,7 +22,17 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         return NoteHolder(view)
     }
 
-    override fun getItemCount() = noteList!!.size
+    override fun getItemCount(): Int {
+        if (noteList!!.isNotEmpty()) {
+            noteList!!.size
+
+        } else {
+            Log.e("NOTE_ADAPTER", "LIST IS 0")
+            return 0
+        }
+
+        return 0
+    }
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
         val note = this.noteList!![position]
