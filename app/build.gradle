@@ -48,4 +48,11 @@ dependencies {
     // -- Material
     def material_version = "1.1.0-alpha09"
     implementation "com.google.android.material:material:$material_version"
+
+    // -- Colourings
+    def coroutines_version = "1.2.1"
+    def version_retrofit_coroutines_adapter = "0.9.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
 }
