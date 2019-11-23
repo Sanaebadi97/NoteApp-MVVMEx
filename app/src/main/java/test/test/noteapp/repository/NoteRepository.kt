@@ -8,7 +8,7 @@ import test.test.noteapp.database.Note
 import test.test.noteapp.database.NoteDao
 import test.test.noteapp.database.NoteDatabase
 
-class NoteRepository(application: Application) : AndroidViewModel(application) {
+class NoteRepository constructor(application: Application) : AndroidViewModel(application) {
     private var noteDao: NoteDao? = null
     private var allNotes: LiveData<List<Note>>? = null
 

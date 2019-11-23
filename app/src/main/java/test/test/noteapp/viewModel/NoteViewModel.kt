@@ -6,10 +6,10 @@ import androidx.lifecycle.LiveData
 import test.test.noteapp.database.Note
 import test.test.noteapp.repository.NoteRepository
 
-class NoteViewModel(application: Application) : AndroidViewModel(application) {
+class NoteViewModel constructor(application: Application) : AndroidViewModel(application) {
 
     private val noteRepository: NoteRepository = NoteRepository(application)
-    private val allNotes: LiveData<List<Note>>
+    private var allNotes: LiveData<List<Note>>? = null
 
     init {
         allNotes = noteRepository.getAllNotes()
@@ -31,8 +31,8 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         noteRepository.deleteAllNotes()
     }
 
-    fun getAllNotes(): LiveData<List<Note>> {
-        return allNotes
+    fun getAllNotes(): LiveData<List<Note>>? {
+        return allNotes!!
     }
 
 

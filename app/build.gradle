@@ -38,12 +38,16 @@ dependencies {
     // -- Lifecycle Components (ViewModel, LiveData and ReactiveStreams)
     def lifecycle_version = "2.2.0-rc02"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+   // kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     // -- Room
     def room_version = "2.2.2"
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    //kapt "androidx.room:room-compiler:$room_version"
+
+
+    kapt "android.arch.lifecycle:extensions:$lifecycle_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
 
     // -- Material
     def material_version = "1.1.0-alpha09"

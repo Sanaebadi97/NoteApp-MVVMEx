@@ -14,7 +14,6 @@ abstract class NoteDatabase : RoomDatabase() {
 
     companion object {
         private var INSTANCE: NoteDatabase? = null
-            private set
 
         fun getInstance(context: Context): NoteDatabase {
             synchronized(this) {
