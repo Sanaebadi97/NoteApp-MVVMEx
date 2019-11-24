@@ -53,4 +53,8 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         notifyDataSetChanged()
 
     }
+
+    fun getNoteAt(position: Int): Note {
+        return this.noteList!![position]
+    }
 }
