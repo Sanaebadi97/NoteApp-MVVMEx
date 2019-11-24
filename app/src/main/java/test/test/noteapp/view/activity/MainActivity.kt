@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         noteViewModel.getAllNotes()!!.observe(this, Observer { notes ->
 
             //update RecyclerView
-            noteAdapter.setNotes(notes)
+            noteAdapter.submitList(notes)
         })
 
 
