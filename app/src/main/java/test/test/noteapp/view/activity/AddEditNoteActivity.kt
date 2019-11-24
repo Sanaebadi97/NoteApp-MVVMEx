@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import kotlinx.android.synthetic.main.activity_add_note.*
 import test.test.noteapp.R
 
-class AddNoteActivity : AppCompatActivity() {
+class AddEditNoteActivity : AppCompatActivity() {
 
 
     lateinit var edtTitle: AppCompatEditText
@@ -22,6 +22,7 @@ class AddNoteActivity : AppCompatActivity() {
 
 
     companion object {
+        val EXTRA_ID: String = "test.test.noteapp.EXTRA_ID"
         val EXTRA_TITLE: String = "test.test.noteapp.EXTRA_TITLE"
         val EXTRA_DESC: String = "test.test.noteapp.EXTRA_TITLE"
         val EXTRA_PRIORITY: String = "test.test.noteapp.EXTRA_PRIORITY"
@@ -39,7 +40,18 @@ class AddNoteActivity : AppCompatActivity() {
         numberPicker.maxValue = 10
 
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
-        title = getString(R.string.add_note)
+
+        val intent = intent
+        if (intent.hasExtra(EXTRA_ID)) {
+            title = getString(R.string.edit_note)
+            edtTitle.setText(intent.getStringExtra(EXTRA_TITLE))
+            edtDesc.setText(intent.getStringExtra(EXTRA_DESC))
+            numberPicker.value = intent.getIntExtra(EXTRA_PRIORITY, 1)
+        } else {
+            title = getString(R.string.add_note)
+
+        }
+
 
     }
 
@@ -50,7 +62,7 @@ class AddNoteActivity : AppCompatActivity() {
 
         if (title.trim().isEmpty() || desc.trim().isEmpty()) {
             Toast.makeText(
-                this@AddNoteActivity,
+                this@AddEditNoteActivity,
                 getString(R.string.warn_insert),
                 Toast.LENGTH_SHORT
             ).show()
@@ -61,6 +73,13 @@ class AddNoteActivity : AppCompatActivity() {
         data.putExtra(EXTRA_TITLE, title)
         data.putExtra(EXTRA_DESC, desc)
         data.putExtra(EXTRA_PRIORITY, priority)
+
+
+        val id: Int = intent.getIntExtra(EXTRA_ID, 1)
+        if (id != -1) {
+            data.putExtra(EXTRA_ID, id)
+        }
+
         setResult(Activity.RESULT_OK, data)
         finish()
 

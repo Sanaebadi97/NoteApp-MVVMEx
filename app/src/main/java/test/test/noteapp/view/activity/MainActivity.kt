@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val ADD_NOTE_REQUEST: Int = 1
+        const val EDIT_NOTE_REQUEST: Int = 2
     }
 
 
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
 
         fabAddNote.setOnClickListener {
-            val intent = Intent(this@MainActivity, AddNoteActivity::class.java)
+            val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
             startActivityForResult(intent, ADD_NOTE_REQUEST)
 
         }
@@ -86,6 +87,7 @@ class MainActivity : AppCompatActivity() {
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(rvNote)
+
     }
 
     private fun rvConfig() {
@@ -95,6 +97,22 @@ class MainActivity : AppCompatActivity() {
         rvNote.layoutManager = linearLayoutManager
         rvNote.adapter = noteAdapter
 
+        noteAdapter.setOnItemClickListener(
+            object : NoteAdapter.OnItemClickListener {
+                override fun onItemClick(note: Note) {
+                    val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
+                    intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.id)
+                    intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.title)
+                    intent.putExtra(AddEditNoteActivity.EXTRA_DESC, note.description)
+                    intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.priority)
+                    startActivityForResult(intent, EDIT_NOTE_REQUEST)
+
+
+                }
+
+            }
+        )
+
 
     }
 
@@ -103,14 +121,33 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == ADD_NOTE_REQUEST && resultCode == Activity.RESULT_OK) {
-            val title: String = data!!.getStringExtra(AddNoteActivity.EXTRA_TITLE)
-            val desc: String = data!!.getStringExtra(AddNoteActivity.EXTRA_DESC)
-            val priority: Int = data.getIntExtra(AddNoteActivity.EXTRA_PRIORITY, 1)
+            val title: String = data!!.getStringExtra(AddEditNoteActivity.EXTRA_TITLE)
+            val desc: String = data!!.getStringExtra(AddEditNoteActivity.EXTRA_DESC)
+            val priority: Int = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY, 1)
 
             val note = Note(title = title, description = desc, priority = priority)
             noteViewModel.insert(note)
 
             Toast.makeText(this, getString(R.string.note_saved), Toast.LENGTH_SHORT).show()
+        } else if (requestCode == EDIT_NOTE_REQUEST && resultCode == Activity.RESULT_OK) {
+
+            val id: Int = data!!.getIntExtra(AddEditNoteActivity.EXTRA_ID, -1)
+            if (id == -1) {
+                Toast.makeText(this, getString(R.string.note_not_updated), Toast.LENGTH_SHORT)
+                    .show()
+                return
+            }
+
+            val title: String = data!!.getStringExtra(AddEditNoteActivity.EXTRA_TITLE)
+            val desc: String = data!!.getStringExtra(AddEditNoteActivity.EXTRA_DESC)
+            val priority: Int = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY, 1)
+
+            val note = Note(title = title, description = desc, priority = priority)
+            note.id = id
+            noteViewModel.update(note)
+
+            Toast.makeText(this, getString(R.string.note_updated), Toast.LENGTH_SHORT).show()
+
         } else {
             Toast.makeText(this, getString(R.string.note_not_saved), Toast.LENGTH_SHORT).show()
 
@@ -126,8 +163,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.delete_all_notes -> {noteViewModel.deleteAllNotes()
-                Toast.makeText(this, getString(R.string.all_notes_deleted), Toast.LENGTH_SHORT).show()
+            R.id.delete_all_notes -> {
+                noteViewModel.deleteAllNotes()
+                Toast.makeText(this, getString(R.string.all_notes_deleted), Toast.LENGTH_SHORT)
+                    .show()
 
             }
 

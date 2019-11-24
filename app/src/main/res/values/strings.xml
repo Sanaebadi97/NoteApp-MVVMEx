@@ -11,4 +11,7 @@
     <string name="note_deleted">Note deleted!</string>
     <string name="delete_all_notes">Delete All Notes</string>
     <string name="all_notes_deleted">All NOtes deleted !</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="note_not_updated">Note Can`t updated !</string>
+    <string name="note_updated">Note updated !</string>
 </resources>

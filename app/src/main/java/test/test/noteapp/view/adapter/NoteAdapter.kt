@@ -4,7 +4,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_item_list.view.*
@@ -15,6 +14,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
 
 
     private var noteList: List<Note>? = null
+    private var onItemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
         val view =
@@ -46,6 +46,15 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         val txtDesc: AppCompatTextView = itemView.txt_desc
         val txtPriority: AppCompatTextView = itemView.txt_view_priority
 
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (onItemClickListener != null && position != RecyclerView.NO_POSITION)
+                    onItemClickListener!!.onItemClick(noteList!![position])
+            }
+        }
+
+
     }
 
     fun setNotes(notes: List<Note>) {
@@ -56,5 +65,14 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
 
     fun getNoteAt(position: Int): Note {
         return this.noteList!![position]
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(note: Note)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        onItemClickListener = listener
+
     }
 }

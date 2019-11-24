@@ -14,7 +14,7 @@
 
 
         <activity
-            android:name=".view.activity.AddNoteActivity"
+            android:name=".view.activity.AddEditNoteActivity"
             android:parentActivityName=".view.activity.MainActivity" />
 
 
